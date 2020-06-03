@@ -32,6 +32,7 @@ Example:
 * The scripts are configured in a way that they can run using an absolute path to the Git project. Alternatively, you can copy the scripts to your working directory.
 * The demo code generates a report.txt file for each of the tests. You can compare the files to verify that the execution of the program.
 * You may need to update value of the promisedate used in the ssj.p program to use a value found in the copy of the sports2020 database.
+* You may also run the scripts using the option `--with-logging` so that a client.log file is generated.
 
 ## Resources
 * https://docs.progress.com/bundle/openedge-api-reference/page/Server-side-join-processing.html
