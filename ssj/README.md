@@ -35,7 +35,7 @@ Example:
 * You may also run the scripts using the option `--with-logging` so that a client.log file is generated.
 
 ## Resources
-* https://docs.progress.com/bundle/openedge-api-reference/page/Server-side-join-processing.html
+* https://docs.progress.com/bundle/openedge-programmimg-interfaces/page/Server-side-join-processing.html
 * https://pugchallenge.org/downloads2018/Banville_Performance.pdf
 * https://www.progress.com/blogs/openedge-12-great-performance-out-of-the-box-with-server-side-join
 * https://docs.progress.com/bundle/openedge-videos/page/Server-Side-Joins-with-Dynamic-Queries.html
