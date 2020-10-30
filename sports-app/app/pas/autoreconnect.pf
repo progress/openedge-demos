@@ -1,0 +1,7 @@
+-db sports2020 -H DBHostName -S 20000 -ct 1
+-dbalt1 "sports2020 -H DBHostName1 -S 20000"
+-dbalt2 "sports2020 -H DBHostName2 -S 20000"
+-retryConnect 1
+-retryConnectPause 2
+#-autoReconnect
+-s 80000

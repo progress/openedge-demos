@@ -1,0 +1,37 @@
+###
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build Project
+      run: ./build.sh 122
+
+  deploy_local:
+    runs-on: self-hosted
+    needs: build
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy to Local Env
+      run: ./deploy.sh 122
+
+  test_local:
+    runs-on: self-hosted
+    needs: deploy_local
+    steps:
+    - uses: actions/checkout@v1
+    - name: Test Local Env
+      run: ./test.sh localhost:8080
+
+  deploy_cloud:
+    runs-on: self-hosted
+    needs: test_local
+    steps:
+    - uses: actions/checkout@v1
+    - name: Deploy to Cloud Env
+      run: ./deploy.sh aws
+###

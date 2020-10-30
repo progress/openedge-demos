@@ -1,0 +1,23 @@
+<?WS>
+USING Progress.Json.ObjectModel.*.
+</?WS>
+<?WS>
+{ table-config.i &TableName = "Customer" }
+</?WS>
+<!DOCTYPE html>
+<!-- `{&EntityName}` View (Embedded SpeedScript Web object) -->
+<html lang="en">
+<head>
+    <title>`{&EntityName}` View</title>
+    <?WS>{header.i}</?WS>
+    <script>
+        var config = `cConfig`;
+    </script>
+    <script src="/grid.js"></script>
+</head>
+<body>
+    <div id="grid">
+        <div id="grid"></div>
+    </div>
+</body>
+</html>
