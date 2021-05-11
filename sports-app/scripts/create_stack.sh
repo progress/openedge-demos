@@ -14,7 +14,7 @@ aws cloudformation create-stack --stack-name $StackName \
     --capabilities CAPABILITY_IAM \
     --disable-rollback \
     --template-url https://s3.amazonaws.com/openedge-aws-dev/quickstart-progress-openedge/templates/master.template.yaml \
-    --parameters ParameterKey=KeyPairName,ParameterValue=PUG2020 \
+    --parameters ParameterKey=KeyPairName,ParameterValue=OEAWSQS \
                  ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 \
                  ParameterKey=WebAccessCIDR,ParameterValue=0.0.0.0/0 \
                  ParameterKey=EmailAddress,ParameterValue=egarcia@progress.com \
