@@ -1,8 +1,9 @@
 #!/bin/bash
 
 StackName=${1-progress-openedge}
-PublicBucket=openedge-aws-dev
-PrivateBucket=myprivatebucket3011
+# PublicBucket=openedge-aws-dev
+PublicBucket=mypublicbucket12345
+PrivateBucket=myprivatebucket12345
 
 cd ~/quickstart-progress-openedge
 
