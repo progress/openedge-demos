@@ -20,9 +20,9 @@ case $Version in
     sudo OE_ENV=webserver PASOEURL="http://127.0.0.1:8810" HTTP_PORT=8080 /install/app/deploy.sh
     ;;
 aws)
-    aws s3 cp /artifacts/sports-app/123/web.tar.gz s3://${PublicBucket}/ --acl public-read
-    aws s3 cp /artifacts/sports-app/123/pas.tar.gz s3://${PublicBucket}/ --acl public-read
-    aws s3 cp /artifacts/sports-app/123/db.tar.gz s3://${PublicBucket}/ --acl public-read    
+    #aws s3 cp /artifacts/sports-app/123/web.tar.gz s3://${PublicBucket}/ --acl public-read
+    #aws s3 cp /artifacts/sports-app/123/pas.tar.gz s3://${PublicBucket}/ --acl public-read
+    #aws s3 cp /artifacts/sports-app/123/db.tar.gz s3://${PublicBucket}/ --acl public-read    
 
     aws s3 cp /artifacts/sports-app/123/web.tar.gz s3://${PrivateBucket}/ 
     aws s3 cp /artifacts/sports-app/123/pas.tar.gz s3://${PrivateBucket}/
