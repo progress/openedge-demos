@@ -10,6 +10,9 @@ export DLC=/psc/dlc
 
 export PATH=$DLC/bin:$PATH
 
+sudo mkdir -p /artifacts
+sudo chmod 777 /artifacts
+
 rm -rf /artifacts/sports-app/${Version}/
 
 mkdir -p /artifacts/sports-app/${Version}/webspeed/
