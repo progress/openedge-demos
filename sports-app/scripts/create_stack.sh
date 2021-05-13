@@ -22,7 +22,7 @@ aws cloudformation create-stack --stack-name $StackName \
                  ParameterKey=QSS3BucketName,ParameterValue=${PublicBucket} \
                  ParameterKey=QSS3KeyPrefix,ParameterValue=quickstart-progress-openedge/ \
                  ParameterKey=InstanceType,ParameterValue=t3a.medium \
-                 ParameterKey=MinScalingInstances,ParameterValue=1 \
+                 ParameterKey=MinScalingInstances,ParameterValue=2 \
                  ParameterKey=MaxScalingInstances,ParameterValue=3 \
                  ParameterKey=DBDeployPackage,ParameterValue=https://s3.amazonaws.com/${PrivateBucket}/db.tar.gz \
                  ParameterKey=PASOEDeployPackage,ParameterValue=https://s3.amazonaws.com/${PrivateBucket}/pas.tar.gz \
