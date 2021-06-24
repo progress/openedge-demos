@@ -14,7 +14,7 @@ aws s3 sync templates s3://${PublicBucket}/quickstart-progress-openedge/template
 aws cloudformation create-stack --stack-name $StackName \
     --capabilities CAPABILITY_IAM \
     --disable-rollback \
-    --template-url https://s3.amazonaws.com/openedge-aws-dev/quickstart-progress-openedge/templates/master.template.yaml \
+    --template-url https://s3.amazonaws.com/${PublicBucket}/quickstart-progress-openedge/templates/master.template.yaml \
     --parameters ParameterKey=KeyPairName,ParameterValue=OEAWSQS \
                  ParameterKey=RemoteAccessCIDR,ParameterValue=0.0.0.0/0 \
                  ParameterKey=WebAccessCIDR,ParameterValue=0.0.0.0/0 \
@@ -24,8 +24,10 @@ aws cloudformation create-stack --stack-name $StackName \
                  ParameterKey=InstanceType,ParameterValue=t3a.medium \
                  ParameterKey=MinScalingInstances,ParameterValue=2 \
                  ParameterKey=MaxScalingInstances,ParameterValue=3 \
-                 ParameterKey=DBDeployPackage,ParameterValue=https://s3.amazonaws.com/${PrivateBucket}/db.tar.gz \
-                 ParameterKey=PASOEDeployPackage,ParameterValue=https://s3.amazonaws.com/${PrivateBucket}/pas.tar.gz \
-                 ParameterKey=WebDeployPackage,ParameterValue=https://s3.amazonaws.com/${PrivateBucket}/web.tar.gz \
+                 ParameterKey=DeployBucket,ParameterValue=${PrivateBucket} \
+                 ParameterKey=DeployBucketRegion,ParameterValue=us-east-1 \
+                 ParameterKey=DBDeployPackage,ParameterValue=db.tar.gz \
+                 ParameterKey=PASOEDeployPackage,ParameterValue=pas.tar.gz \
+                 ParameterKey=WebDeployPackage,ParameterValue=web.tar.gz \                 
                  "ParameterKey=AvailabilityZones,ParameterValue='us-east-1a,us-east-1b'"
 
