@@ -28,6 +28,6 @@ aws cloudformation create-stack --stack-name $StackName \
                  ParameterKey=DeployBucketRegion,ParameterValue=us-east-1 \
                  ParameterKey=DBDeployPackage,ParameterValue=db.tar.gz \
                  ParameterKey=PASOEDeployPackage,ParameterValue=pas.tar.gz \
-                 ParameterKey=WebDeployPackage,ParameterValue=web.tar.gz \               
+                 ParameterKey=WebDeployPackage,ParameterValue=web.tar.gz \
                  "ParameterKey=AvailabilityZones,ParameterValue='us-east-1a,us-east-1b'"
 
