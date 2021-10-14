@@ -12,6 +12,7 @@ aws s3 sync submodules s3://${PublicBucket}/quickstart-progress-openedge/submodu
 aws s3 sync templates s3://${PublicBucket}/quickstart-progress-openedge/templates/ --delete --acl public-read
 
 aws cloudformation create-stack --stack-name $StackName \
+    --disable-rollback \
     --capabilities CAPABILITY_IAM \
     --template-url https://s3.amazonaws.com/${PublicBucket}/quickstart-progress-openedge/templates/master.template.yaml \
     --parameters ParameterKey=KeyPairName,ParameterValue=OEAWSQS \
@@ -30,4 +31,3 @@ aws cloudformation create-stack --stack-name $StackName \
                  ParameterKey=WebDeployPackage,ParameterValue=web.tar.gz \
                  "ParameterKey=AvailabilityZones,ParameterValue='us-east-1a,us-east-1b'"
 #
-#    --disable-rollback \
