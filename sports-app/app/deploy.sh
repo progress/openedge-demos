@@ -26,7 +26,7 @@ db0)
     cp /install/app/progress.cfg /psc/dlc/
     cd /psc/wrk
 
-    /install/app/update_etc_hosts.sh -a "app_prod,${DBHostName} app_dr1,${DBHostName1} app_dr2,${DBHostName2}"
+    # /install/app/update_etc_hosts.sh -a "app_prod,${DBHostName} app_dr1,${DBHostName1} app_dr2,${DBHostName2}"
 
     # prodb sports2020 sports2020
     # proserve sports2020 -S 20000
