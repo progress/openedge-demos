@@ -54,6 +54,6 @@ aws s3 cp web.tar.gz s3://${PrivateBucket}/web.tar.gz
 
 rm -rf $TMPDIR
 
-cp ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh.src ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
+# cp ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh.src ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
 sed -i "s/PUBLIC_BUCKET/${PublicBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
 sed -i "s/PRIVATE_BUCKET/${PrivateBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
