@@ -28,59 +28,67 @@ db0)
 
     # /install/app/update_etc_hosts.sh -a "app_prod,${DBHostName} app_dr1,${DBHostName1} app_dr2,${DBHostName2}"
 
-    # prodb sports2020 sports2020
-    # proserve sports2020 -S 20000
+    # Without OpenEdge Replication
+    prodb sports2020 sports2020
+    proserve sports2020 -S 20000
 
-    mkdir -p aiArchives
-    cp /install/app/db/sourceDB.repl.properties sports2020.repl.properties
-    sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
-    sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
-    sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
-    prorest sports2020 /install/app/db/sports2020_backup
-    prorest sports2020 /install/app/db/sports2020_backup_incremental
-    prostrct add sports2020 /install/app/db/addai.st
-    rfutil sports2020 -C aimage begin
-    rfutil sports2020 -C aiarchiver enable
-    proutil sports2020 -C enableSiteReplication source
-    proserve sports2020 -DBService replserv -S 20000 -aiarcdir aiArchives
+    # With OpenEdge Replication
+#     mkdir -p aiArchives
+#     cp /install/app/db/sourceDB.repl.properties sports2020.repl.properties
+#     sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
+#     sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
+#     sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
+#     prorest sports2020 /install/app/db/sports2020_backup
+#     prorest sports2020 /install/app/db/sports2020_backup_incremental
+#     prostrct add sports2020 /install/app/db/addai.st
+#     rfutil sports2020 -C aimage begin
+#     rfutil sports2020 -C aiarchiver enable
+#     proutil sports2020 -C enableSiteReplication source
+#     proserve sports2020 -DBService replserv -S 20000 -aiarcdir aiArchives
     ;;
 db1)
     cp /install/app/progress.cfg /psc/dlc/
     cd /psc/wrk
-    # prodb sports2020 sports2020
-    # proserve sports2020 -S 20000
+    
+    # Without OpenEdge Replication    
+    prodb sports2020 sports2020
+    proserve sports2020 -S 20000
 
-    mkdir -p aiArchives
-    cp /install/app/db/targetDB1.repl.properties sports2020.repl.properties
-    sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
-    sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
-    sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
-    prorest sports2020 /install/app/db/sports2020_backup
-    prorest sports2020 /install/app/db/sports2020_backup_incremental
-    prostrct add sports2020 /install/app/db/addai.st
-    rfutil sports2020 -C aimage begin
-    rfutil sports2020 -C aiarchiver enable
-    proutil sports2020 -C enableSiteReplication target
-    proserve sports2020 -DBService replagent -S 20000 -aiarcdir aiArchives
+    # With OpenEdge Replication
+#     mkdir -p aiArchives
+#     cp /install/app/db/targetDB1.repl.properties sports2020.repl.properties
+#     sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
+#     sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
+#     sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
+#     prorest sports2020 /install/app/db/sports2020_backup
+#     prorest sports2020 /install/app/db/sports2020_backup_incremental
+#     prostrct add sports2020 /install/app/db/addai.st
+#     rfutil sports2020 -C aimage begin
+#     rfutil sports2020 -C aiarchiver enable
+#     proutil sports2020 -C enableSiteReplication target
+#     proserve sports2020 -DBService replagent -S 20000 -aiarcdir aiArchives
     ;;
 db2)
     cp /install/app/progress.cfg /psc/dlc/
     cd /psc/wrk
-#    prodb sports2020 sports2020
-#    proserve sports2020 -S 20000
 
-    mkdir -p aiArchives
-    cp /install/app/db/targetDB2.repl.properties sports2020.repl.properties
-    sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
-    sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
-    sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
-    prorest sports2020 /install/app/db/sports2020_backup
-    prorest sports2020 /install/app/db/sports2020_backup_incremental
-    prostrct add sports2020 /install/app/db/addai.st
-    rfutil sports2020 -C aimage begin
-    rfutil sports2020 -C aiarchiver enable
-    proutil sports2020 -C enableSiteReplication target
-    proserve sports2020 -DBService replagent -S 20000 -aiarcdir aiArchives
+    # Without OpenEdge Replication
+    prodb sports2020 sports2020
+    proserve sports2020 -S 20000
+
+    # With OpenEdge Replication
+#     mkdir -p aiArchives
+#     cp /install/app/db/targetDB2.repl.properties sports2020.repl.properties
+#     sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
+#     sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
+#     sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
+#     prorest sports2020 /install/app/db/sports2020_backup
+#     prorest sports2020 /install/app/db/sports2020_backup_incremental
+#     prostrct add sports2020 /install/app/db/addai.st
+#     rfutil sports2020 -C aimage begin
+#     rfutil sports2020 -C aiarchiver enable
+#     proutil sports2020 -C enableSiteReplication target
+#     proserve sports2020 -DBService replagent -S 20000 -aiarcdir aiArchives
     ;;
 pasoe)
     sysctl net.ipv4.tcp_syn_retries=2
