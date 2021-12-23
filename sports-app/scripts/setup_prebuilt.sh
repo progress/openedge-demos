@@ -36,6 +36,8 @@ wget https://openedge-on-aws-workshop.s3.amazonaws.com/web.tar.gz
 
 # Add private files
 tar xzvf db.tar.gz 
+# DEBUG:
+cp ~/environment/openedge-demos/sports-app/app/deploy.sh ~/environment/files_to_include/
 cp -r ~/environment/files_to_include/* app/
 tar cvzf db.tar.gz app/
 rm -rf app/
