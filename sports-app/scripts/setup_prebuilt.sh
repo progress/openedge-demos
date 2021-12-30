@@ -38,6 +38,9 @@ wget https://openedge-on-aws-workshop.s3.amazonaws.com/web.tar.gz
 tar xzvf db.tar.gz 
 # DEBUG:
 cp ~/environment/openedge-demos/sports-app/app/deploy.sh ~/environment/files_to_include/
+cp ~/environment/openedge-demos/sports-app/app/setReplSets.sh ~/environment/files_to_include/
+cp ~/environment/openedge-demos/sports-app/app/setReplAgent.sh ~/environment/files_to_include/
+cp ~/environment/sshkey.pem ~/environment/files_to_include/
 cp -r ~/environment/files_to_include/* app/
 tar cvzf db.tar.gz app/
 rm -rf app/
@@ -54,6 +57,6 @@ aws s3 cp web.tar.gz s3://${PrivateBucket}/web.tar.gz
 
 rm -rf $TMPDIR
 
-cp ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh.src ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
+#cp ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh.src ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
 sed -i "s/PUBLIC_BUCKET/${PublicBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
 sed -i "s/PRIVATE_BUCKET/${PrivateBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
