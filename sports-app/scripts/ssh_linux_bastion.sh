@@ -10,6 +10,7 @@ DB2=`aws ec2 describe-instances --query "Reservations[*].Instances[*].{PrivateIP
 echo ssh -i sshkey.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ec2-user@$DB0 > /tmp/ssh_db0.sh
 echo ssh -i sshkey.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ec2-user@$DB1 > /tmp/ssh_db1.sh
 echo ssh -i sshkey.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ec2-user@$DB2 > /tmp/ssh_db2.sh
+chmod +x /tmp/ssh_db[0-2].sh
 echo "Public Ip Address: $PUBLIC_IP_ADDRESS"
 scp -i ~/environment/sshkey.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ~/environment/sshkey.pem ec2-user@$PUBLIC_IP_ADDRESS:/home/ec2-user
 scp -i ~/environment/sshkey.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /tmp/ssh_db0.sh /tmp/ssh_db1.sh /tmp/ssh_db2.sh ec2-user@$PUBLIC_IP_ADDRESS:/home/ec2-user

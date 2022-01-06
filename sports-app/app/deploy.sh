@@ -32,11 +32,7 @@ db0)
     prodb sports2020 sports2020
     proserve sports2020 -S 20000
 
-    # Setup Sports2020 database with OpenEdge Replication
-    # cp /install/app/db/sourceDB.repl.properties sports2020.repl.properties
-    # sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
-    # sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
-    # sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
+    # Setup Sports2020 database with OpenEdge Replication on all EC2 instances
     # DBHostName1=${DBHostName1} DBHostName2=${DBHostName2} /install/app/setReplSets.sh
     ;;
 db1)
@@ -46,12 +42,6 @@ db1)
     # Setup Sports2020 database without OpenEdge Replication
     prodb sports2020 sports2020
     proserve sports2020 -S 20000
-
-    # Setup Sports2020 database with OpenEdge Replication
-    # cp /install/app/db/targetDB1.repl.properties sports2020.repl.properties
-    # sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
-    # sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
-    # sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
     ;;
 db2)
     cp /install/app/progress.cfg /psc/dlc/
@@ -60,12 +50,6 @@ db2)
     # Setup Sports2020 database without OpenEdge Replication
     prodb sports2020 sports2020
     proserve sports2020 -S 20000
-
-    # Setup Sports2020 database with OpenEdge Replication
-    # cp /install/app/db/targetDB2.repl.properties sports2020.repl.properties
-    # sed -i "s/DBHostName2/${DBHostName2}/" sports2020.repl.properties
-    # sed -i "s/DBHostName1/${DBHostName1}/" sports2020.repl.properties
-    # sed -i "s/DBHostName/${DBHostName}/" sports2020.repl.properties
     ;;
 pasoe)
     sysctl net.ipv4.tcp_syn_retries=2

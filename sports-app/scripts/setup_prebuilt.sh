@@ -18,13 +18,13 @@ then
     aws s3api create-bucket --bucket ${PrivateBucket}
 fi
 
-if [ ! -d ~/environment/quickstart-progress-openedge ]
-then
-    cd ~/environment
-    git clone --recurse-submodules https://github.com/progress/quickstart-progress-openedge.git
-    cd ~/environment/quickstart-progress-openedge
-    git checkout work-in-progress
-fi
+# if [ ! -d ~/environment/quickstart-progress-openedge ]
+# then
+#     cd ~/environment
+#     git clone --recurse-submodules https://github.com/progress/quickstart-progress-openedge.git
+#     cd ~/environment/quickstart-progress-openedge
+#     git checkout work-in-progress
+# fi
 
 # Download Deployment Packages
 TMPDIR=/tmp/setup.$$
@@ -58,5 +58,5 @@ aws s3 cp web.tar.gz s3://${PrivateBucket}/web.tar.gz
 rm -rf $TMPDIR
 
 # cp ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh.src ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
-sed -i "s/PUBLIC_BUCKET/${PublicBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
-sed -i "s/PRIVATE_BUCKET/${PrivateBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
+# sed -i "s/PUBLIC_BUCKET/${PublicBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
+# sed -i "s/PRIVATE_BUCKET/${PrivateBucket}/" ~/environment/openedge-demos/sports-app/scripts/create_deployment.sh
