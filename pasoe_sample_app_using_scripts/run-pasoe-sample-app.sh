@@ -14,18 +14,19 @@ then
   export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
 fi
 
-if curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json"
+if curl -s http://169.254.169.254/latest/ | fgrep meta-data > /dev/null
 then
-  # Azure VM
-  export PUBLIC_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].frontendIpAddress`
-  export PRIVATE_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].privateIpAddress`
+  # AWS EC2 instance
+  export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+  export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
 else
-  # Try IMDS as AWS
-  if curl http://169.254.169.254/latest/meta-data/public-ipv4 > /dev/null 2>&1
+  if curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json"
   then
-    export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
-    export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+    # Azure VM
+    export PUBLIC_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].frontendIpAddress`
+    export PRIVATE_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].privateIpAddress`
   else
+    # VM
     export PUBLIC_IP_ADDRESS=`ip -4 -o a show enp0s8 | awk '/inet/ { print $4 }' | cut -d/ -f1`
     export PRIVATE_IP_ADDRESS="${PUBLIC_IP_ADDRESS}"
   fi
