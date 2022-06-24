@@ -2,13 +2,13 @@
 	
 ### Prerequisites:
 * To run using Docker:
-    * Machine running Ubuntu Server 18.04 LTS or greater
+    * Machine running Ubuntu Server 18.04 LTS or greater (2 vCPUs, 4 GiB memory, 16 GiB storage)
     * Docker Engine
 * To run using Podman:
     * Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 16 GiB storage)
     * (Scripts install Podman if a docker executable is not found on the machine)
-* PROGRESS_OE_12.2.9_LNX_64.tar.gz (ESD download)
-* PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip (ESD download)
+* OpenEdge media: PROGRESS_OE_12.2.9_LNX_64.tar.gz (ESD download)
+* PAS for OpenEdge container image and deploy scripts: PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip (ESD download)
 * response.ini with your control codes for OpenEdge (you can use the reponse.ini include with the scripts as a template)
 
 These scripts have been tested using using a virtual machine running on AWS, Azure, and VirtualBox with Vagrant.
@@ -16,16 +16,19 @@ These scripts have been tested using using a virtual machine running on AWS, Azu
 ### Tested Platforms
 |              | Docker           | Podman |
 | ------------ | ---------------- | ------------ |
-| AWS          | Cloud9 with Ubuntu 18.04 LTS | Ubuntu Server 22.04 LTS |
+| AWS          | Cloud9 instance with Ubuntu 18.04 LTS | Ubuntu Server 22.04 LTS |
 | Azure        |  | Ubuntu Server 22.04 LTS |
 | VirtualBox/Vagrant   |   | ubuntu/jammy64 |
 
 
 ### Steps
-1. Upload the following files to folder ~/Downloads on the virtual machine:
+1. Copy the following files to folder ~/Downloads on the virtual machine:
     * PROGRESS_OE_12.2.9_LNX_64.tar.gz
     * PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip
     * response.ini
+    * Notes:
+        * Environment variables S3_BUCKET and WEBFILES can be set to copy these files from either an S3 bucket or from an HTTP server respectively.
+        * In practice, you can use a Repository Manager to host these files and use it from within your environment.
 
 2. Clone the openedge-demos repository.
 ~~~
