@@ -2,7 +2,7 @@
 	
 ### Prerequisites:
 * To run using Docker:
-    * Machine running Ubuntu Server 18.04 LTS or greater
+    * Machine running Ubuntu Server 18.04 LTS or greater (2 vCPUs, 4 GiB memory, 16 GiB storage)
     * Docker Engine
 * To run using Podman:
     * Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 16 GiB storage)
