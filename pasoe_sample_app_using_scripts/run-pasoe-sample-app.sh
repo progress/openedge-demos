@@ -8,8 +8,17 @@ then
   export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
 fi
 
-export PUBLIC_IP_ADDRESS=13.58.191.210
-export PRIVATE_IP_ADDRESS=172.31.38.81
+if curl http://169.254.169.254/latest/meta-data/public-ipv4 > /dev/null 2>&1
+then
+  export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+  export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+fi
+
+if [ "${PUBLIC_IP_ADDRESS}" == "" -o "${PRIVATE_IP_ADDRESS}" == "" ]
+then
+  echo IP Address could not be set automatically. Please edit script to set it manually.
+  exit 1
+fi
 
 export TERM=vt100
 
