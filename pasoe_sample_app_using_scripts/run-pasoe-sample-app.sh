@@ -3,15 +3,29 @@
 export DLC=/psc/dlc
 export PATH=$PATH:$DLC/bin
 
+if [ ! -f /usr/bin/jq ]
+then
+  sudo apt-get update
+  sudo apt-get -y install jq
+fi
+
 if [ -f /usr/bin/podman ]
 then
   export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
 fi
 
-if curl http://169.254.169.254/latest/meta-data/public-ipv4 > /dev/null 2>&1
+if curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq
 then
-  export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
-  export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+  # Azure VM
+  export PUBLIC_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].frontendIpAddress`
+  export PRIVATE_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].privateIpAddress`
+else
+  # Try IMDS as AWS
+  if curl http://169.254.169.254/latest/meta-data/public-ipv4 > /dev/null 2>&1
+  then
+    export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
+    export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+  fi
 fi
 
 if [ "${PUBLIC_IP_ADDRESS}" == "" -o "${PRIVATE_IP_ADDRESS}" == "" ]
