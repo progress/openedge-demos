@@ -2,10 +2,16 @@
 
 export DLC=/psc/dlc
 export PATH=$PATH:$DLC/bin
-export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
 
-export PUBLIC_IP_ADDRESS=3.18.214.87
-export PRIVATE_IP_ADDRESS=172.31.45.214
+if [ -f /usr/bin/podman ]
+then
+  export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
+fi
+
+export PUBLIC_IP_ADDRESS=13.58.191.210
+export PRIVATE_IP_ADDRESS=172.31.38.81
+
+export TERM=vt100
 
 if [ ! -f /psc/wrk/sports.db ]
 then

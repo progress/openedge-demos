@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -f /usr/bin/podman ]
+if [ ! -f /usr/bin/docker ]
 then
   sudo apt-get update
   sudo apt-get -y install podman podman-docker
@@ -12,7 +12,10 @@ then
   sudo chmod +x /usr/local/bin/docker-compose
 fi
 
-# Create podman.socket for regular user
-systemctl enable --now --user podman.socket
+if [ -f /usr/bin/podman ]
+then
+  # Create podman.socket for regular user
+  systemctl enable --now --user podman.socket
 
-# export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
+  # export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
+fi
