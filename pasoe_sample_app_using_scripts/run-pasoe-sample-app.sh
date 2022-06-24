@@ -14,7 +14,7 @@ then
   export DOCKER_HOST="unix:$XDG_RUNTIME_DIR/podman/podman.sock"
 fi
 
-if curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq
+if curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json"
 then
   # Azure VM
   export PUBLIC_IP_ADDRESS=`curl -sH Metadata:true --noproxy "*" "http://169.254.169.254/metadata/loadbalancer?api-version=2021-05-01&format=json" | jq -r .loadbalancer.publicIpAddresses[0].frontendIpAddress`
@@ -25,6 +25,13 @@ else
   then
     export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
     export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+  else
+    TEMP=`hostname --all-ip-addresses | tr -d ' '`
+    export PUBLIC_IP_ADDRESS=`hostname --all-ip-addresses | awk '{ print $1 }'`
+    if [ "${PUBLIC_IP_ADDRESS}" == "${TEMP}" ]
+    then
+      export PRIVATE_IP_ADDRESS="${PUBLIC_IP_ADDRESS}"
+    fi
   fi
 fi
 
