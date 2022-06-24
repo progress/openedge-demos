@@ -1,0 +1,26 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.network "private_network", ip: "192.168.56.220"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "4096"
+  end
+
+  config.vm.provision "shell", privileged: false, inline: <<-SHELL
+    mkdir -p ~/Downloads
+    cd ~/Downloads
+    # curl -sO http://10.0.0.67:8080/pkgs/demo/response.ini
+    # curl -sO http://10.0.0.67:8080/pkgs/openedge/PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip
+    # curl -sO http://10.0.0.67:8080/pkgs/openedge/PROGRESS_OE_12.2.9_LNX_64.tar.gz
+    cp /vagrant/response.ini .
+    cp /vagrant/PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip .
+    cp /vagrant/PROGRESS_OE_12.2.9_LNX_64.tar.gz .
+    
+    cd
+    git clone https://github.com/progress/openedge-demos.git
+    cd openedge-demos
+    git checkout pasoe-sample-app-scripts
+    cd ~/openedge-demos/pasoe_sample_app_using_scripts
+    ./install-demo.sh
+  SHELL
+end
