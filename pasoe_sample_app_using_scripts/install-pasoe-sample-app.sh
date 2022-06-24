@@ -14,7 +14,6 @@ then
   mkdir -p ~/pasoe-sample-app/
   cd ~/pasoe-sample-app/
   unzip /tmp/SampleApp_12.2.3.zip
-  unzip ~/Downloads/PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip deploy/*
 
   rm /tmp/SampleApp_12.2.3.zip 
 else
@@ -22,4 +21,8 @@ else
   fgrep Environment ~/pasoe-sample-app/README.md
 fi
 
-
+if [ ! -d ~/pasoe-sample-app/deploy/ ]
+then
+  cd ~/pasoe-sample-app/
+  unzip ~/Downloads/PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip deploy/*
+fi
