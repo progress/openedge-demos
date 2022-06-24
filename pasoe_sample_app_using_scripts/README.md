@@ -29,7 +29,7 @@ These scripts have been tested using using a virtual machine running on AWS, Azu
 git clone https://github.com/progress/openedge-demos.git
 ~~~
 
-3. Change to folder ~/openedge-demos/pasoe_sample_app_using_scripts.
+3. Change to folder ~/openedge-demos/pasoe_sample_app_using_scripts. (~/openedge-demo/environment/pasoe_sample_app_using_scripts if using Cloud9)
 ~~~
 cd ~/openedge-demos/pasoe_sample_app_using_scripts
 ~~~
