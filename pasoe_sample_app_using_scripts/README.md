@@ -45,4 +45,4 @@ You should be able to see a Kendo UI Grid showing data from the customer table f
 **Notes:**
 * The scripts automate the steps listed in the following article:
     * https://community.progress.com/s/question/0D54Q00007pHA0KSAW/use-the-container-image-for-pas-for-openedge-122x-or-125-with-a-sample-application
-* The scripts are implement in a way that they can be run more than once without issues. They are intended to set the desired state of having the PASOE sample application running.
+* The scripts are implemented in a way that they can be run more than once without issues. They are intended to set the desired state of having the PASOE sample application running.
