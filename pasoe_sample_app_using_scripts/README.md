@@ -1,9 +1,22 @@
-# Running the container sample application for PASOE with Podman
+# Running the container sample application for PASOE
 	
 ### Prerequisites:
-* Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 16 GiB storage)
+* To run using Docker:
+    * Machine running Ubuntu Server 18.04 LTS or greater
+    * Docker Engine
+* To run using Podman:
+    * Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 16 GiB storage)
+    * (Scripts install Podman if a docker executable is not found on the machine)
 
 These scripts have been tested using using a virtual machine running on AWS, Azure, and VirtualBox.
+
+### Tested Platforms
+|              | Docker           | Podman |
+| ------------ | ---------------- | ------------ |
+| AWS          | Cloud9 with Ubuntu 18.04 LTS | Ubuntu Server 22.04 LTS |
+| Azure        |  | Ubuntu Server 22.04 LTS |
+| VirtualBox   |   |     |
+
 
 ### Steps
 1. Upload the following files to folder ~/Downloads on the virtual machine:
@@ -46,3 +59,5 @@ You should be able to see a Kendo UI Grid showing data from the customer table f
 * The scripts automate the steps listed in the following article:
     * https://community.progress.com/s/question/0D54Q00007pHA0KSAW/use-the-container-image-for-pas-for-openedge-122x-or-125-with-a-sample-application
 * The scripts are implemented in a way that they can be run more than once without issues. They are intended to set the desired state of having the PASOE sample application running.
+* The scripts would use Docker if it is already installed on the machine. Otherwise, it would attempt to install Podman from the main repository for Ubuntu.
+* The deploy scripts for PASOE (included in zip file from ESD) use Docker. The Podman compatibility makes it possible to work with minor changes. Namely, changing short container image names to point to docker.io.
