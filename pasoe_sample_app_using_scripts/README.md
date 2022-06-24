@@ -7,8 +7,11 @@
 * To run using Podman:
     * Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 16 GiB storage)
     * (Scripts install Podman if a docker executable is not found on the machine)
+* PROGRESS_OE_12.2.9_LNX_64.tar.gz (ESD download)
+* PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip (ESD download)
+* response.ini with your control codes for OpenEdge (you can use the reponse.ini include with the scripts as a template)
 
-These scripts have been tested using using a virtual machine running on AWS, Azure, and VirtualBox.
+These scripts have been tested using using a virtual machine running on AWS, Azure, and VirtualBox with Vagrant.
 
 ### Tested Platforms
 |              | Docker           | Podman |
@@ -20,9 +23,9 @@ These scripts have been tested using using a virtual machine running on AWS, Azu
 
 ### Steps
 1. Upload the following files to folder ~/Downloads on the virtual machine:
-    * PROGRESS_OE_12.2.9_LNX_64.tar.gz (ESD download)
-    * PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip (ESD download)
-    * response.ini with your control codes for OpenEdge (you can use the reponse.ini include with the scripts as a template)
+    * PROGRESS_OE_12.2.9_LNX_64.tar.gz
+    * PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip
+    * response.ini
 
 2. Clone the openedge-demos repository.
 ~~~
