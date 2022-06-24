@@ -15,7 +15,7 @@ These scripts have been tested using using a virtual machine running on AWS, Azu
 | ------------ | ---------------- | ------------ |
 | AWS          | Cloud9 with Ubuntu 18.04 LTS | Ubuntu Server 22.04 LTS |
 | Azure        |  | Ubuntu Server 22.04 LTS |
-| VirtualBox   |   |     |
+| VirtualBox/Vagrant   |   | ubuntu/jammy64 |
 
 
 ### Steps
@@ -29,12 +29,12 @@ These scripts have been tested using using a virtual machine running on AWS, Azu
 git clone https://github.com/progress/openedge-demos.git
 ~~~
 
-3. Change to folder ~/openedge-demos/pasoe_sample_app_using_scripts. (~/openedge-demo/environment/pasoe_sample_app_using_scripts if using Cloud9)
+3. Change to folder ~/openedge-demos/pasoe_sample_app_using_scripts. ( ~/openedge-demo/environment/pasoe_sample_app_using_scripts if using Cloud9 )
 ~~~
 cd ~/openedge-demos/pasoe_sample_app_using_scripts
 ~~~
 
-4. Edit script run-pasoe-sample-app.sh and set PUBLIC_IP_ADDRESS and PRIVATE_IP_ADDRESS to point to your environment.
+4. The scripts have code to determine the IP address of the virtual machine. In some cases, you might need to edit the script run-pasoe-sample-app.sh and set PUBLIC_IP_ADDRESS and PRIVATE_IP_ADDRESS to point to your environment.
 
 5. Run script ./install-demo.sh from the pasoe_sample_app_using_scripts folder.
 ~~~
