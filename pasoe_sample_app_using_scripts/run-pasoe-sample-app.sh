@@ -26,12 +26,8 @@ else
     export PUBLIC_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/public-ipv4`
     export PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
   else
-    TEMP=`hostname --all-ip-addresses | tr -d ' '`
-    export PUBLIC_IP_ADDRESS=`hostname --all-ip-addresses | awk '{ print $1 }'`
-    if [ "${PUBLIC_IP_ADDRESS}" == "${TEMP}" ]
-    then
-      export PRIVATE_IP_ADDRESS="${PUBLIC_IP_ADDRESS}"
-    fi
+    export PUBLIC_IP_ADDRESS=`ip -4 -o a show enp0s8 | awk '/inet/ { print $4 }' | cut -d/ -f1`
+    export PRIVATE_IP_ADDRESS="${PUBLIC_IP_ADDRESS}"
   fi
 fi
 
