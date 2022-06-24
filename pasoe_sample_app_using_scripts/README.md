@@ -22,10 +22,13 @@ These scripts have been tested using using a virtual machine running on AWS, Azu
 
 
 ### Steps
-1. Upload the following files to folder ~/Downloads on the virtual machine:
+1. Copy the following files to folder ~/Downloads on the virtual machine:
     * PROGRESS_OE_12.2.9_LNX_64.tar.gz
     * PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip
     * response.ini
+    * Notes:
+        * Environment variables S3_BUCKET and WEBFILES can be set to copy these files from either an S3 bucket or from an HTTP server respectively.
+        * In practice, you can use a Repository Manager to host these files and use it from within your environment.
 
 2. Clone the openedge-demos repository.
 ~~~
