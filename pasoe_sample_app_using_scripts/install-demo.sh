@@ -5,6 +5,11 @@ then
   ./aws_copy_files.sh
 fi
 
+if [ "$WEBFILES" != "" ]
+then
+  ./webfiles_copy_files.sh
+fi
+
 ./install-podman.sh
 ./install-openedge.sh
 ./load-containers.sh
