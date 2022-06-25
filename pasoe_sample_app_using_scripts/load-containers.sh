@@ -16,6 +16,7 @@ else
   unzip ~/Downloads/PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip
   docker load -i PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.tar.gz
   rm -rf /tmp/$$
+  cd
 fi
 
 # Load containers from Downloads/containers directory if it exists
