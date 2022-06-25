@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
     #    PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip \
     #    PROGRESS_OE_12.2.9_LNX_64.tar.gz ~/Downloads
     
-    cd ~/openedge-demos/pasoe_sample_app_using_scripts
     export WEBFILES=http://10.0.0.67:8080/pkgs
-    ./install-demo.sh
+    # git clone https://github.com/progress/openedge-demos.git
+    ~/openedge-demos/pasoe_sample_app_using_scripts/install-demo.sh
   SHELL
 end
