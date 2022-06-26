@@ -2,10 +2,10 @@
 	
 ### Prerequisites:
 * To run using Docker:
-    * Machine running Ubuntu Server 18.04 LTS or greater (2 vCPUs, 4 GiB memory, 16 GiB storage)
+    * Machine running Ubuntu Server 18.04 LTS or greater (2 vCPUs, 4 GiB memory, 20 GiB storage)
     * Docker Engine
 * To run using Podman:
-    * Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 16 GiB storage)
+    * Machine running Ubuntu Server 22.04 LTS (2 vCPUs, 4 GiB memory, 20 GiB storage)
     * (Scripts install Podman if a docker executable is not found on the machine)
 * OpenEdge media: PROGRESS_OE_12.2.9_LNX_64.tar.gz (ESD download)
 * PAS for OpenEdge container image and deploy scripts: PROGRESS_PASOE_CONTAINER_IMAGE_12.2.9_LNX_64.zip (ESD download)
