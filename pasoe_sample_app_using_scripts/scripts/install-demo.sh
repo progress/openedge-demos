@@ -13,7 +13,8 @@ then
 fi
 
 $SCRIPTS/install-podman.sh
-$SCRIPTS/install-openedge.sh
 $SCRIPTS/load-containers.sh
+#
+$SCRIPTS/install-openedge.sh
 $SCRIPTS/install-pasoe-sample-app.sh
 $SCRIPTS/run-pasoe-sample-app.sh
