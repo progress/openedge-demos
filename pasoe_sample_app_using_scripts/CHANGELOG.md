@@ -1,3 +1,5 @@
+### 1.0.0 (2022-06-28)
+
 ### Features
 * Scripts to install PASOE sample app
 * Option to install Docker
