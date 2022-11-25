@@ -1,0 +1,118 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  config.vm.synced_folder "c:/files", "/files"
+  config.vm.synced_folder "../scripts", "/scripts"
+
+  config.vm.define vm_name = "oedb" do |config|
+    config.vm.hostname = "oedb"
+    config.vm.network "private_network", ip: "192.168.56.120"
+
+    config.vm.provision "os", type: "shell", inline: <<-SHELL
+      # set -x
+      if [ ! -f /usr/bin/jq ]
+      then
+        apt-get update
+        apt-get install -y jq
+      fi
+      if [ ! -f /etc/rc.local ]
+      then
+        cp /vagrant/files/rc.local.oedb /etc/rc.local
+        chmod +x /etc/rc.local
+      fi
+    SHELL
+
+    config.vm.provision "install_openjdk",
+      type: "shell",
+      path: "../scripts/install_openjdk.sh",
+      args: "17"
+
+    config.vm.provision "install_openedge",
+      type: "shell",
+      path: "../scripts/install_openedge.sh",
+      args: "12.6"
+
+    config.vm.provision "create_sports2020",
+      type: "shell",
+      path: "../scripts/create_sports2020.sh"
+  end
+
+  # Blue Environment
+  (1..2).each do |i|
+    config.vm.define vm_name = "blue%d" %i do |config|
+      config.vm.hostname = "#{vm_name}"
+      config.vm.network "private_network", ip: "192.168.56.#{120+i}"
+
+      config.vm.provision "os", type: "shell", inline: <<-SHELL
+        if [ ! -f /usr/bin/jq ]
+        then
+          apt-get update
+          apt-get install -y jq
+        fi  
+        if [ ! -f /etc/rc.local ]
+        then
+          cp /vagrant/files/rc.local.pasoe /etc/rc.local
+          chmod +x /etc/rc.local
+        fi
+      SHELL
+
+      config.vm.provision "install_openjdk",
+      type: "shell",
+      path: "../scripts/install_openjdk.sh",
+      args: "17"
+
+      config.vm.provision "install_openedge",
+      type: "shell",
+      path: "../scripts/install_openedge.sh",
+      args: "12.6"
+      
+      config.vm.provision "create_oepas1",
+        type: "shell",
+        path: "../scripts/create_oepas1.sh"
+
+      config.vm.provision "deploy_update", type: "shell", inline: <<-SHELL
+        cp /vagrant/files/customer.p.v1 /psc/wrk/oepas1/openedge/customer.p
+      SHELL
+    end
+  end
+
+  # Green Environment
+  (1..2).each do |i|
+    config.vm.define vm_name = "green%d" %i do |config|
+      config.vm.hostname = "#{vm_name}"
+      config.vm.network "private_network", ip: "192.168.56.#{122+i}"
+
+      config.vm.provision "os", type: "shell", inline: <<-SHELL
+        if [ ! -f /usr/bin/jq ]
+        then
+          apt-get update
+          apt-get install -y jq
+        fi  
+        if [ ! -f /etc/rc.local ]
+        then
+          cp /vagrant/files/rc.local.pasoe /etc/rc.local
+          chmod +x /etc/rc.local
+        fi
+      SHELL
+
+      config.vm.provision "install_openjdk",
+        type: "shell",
+        path: "../scripts/install_openjdk.sh",
+        args: "17"
+
+      config.vm.provision "install_openedge",
+        type: "shell",
+        path: "../scripts/install_openedge.sh",
+        args: "12.6"
+      
+      config.vm.provision "create_oepas1",
+        type: "shell",
+        path: "../scripts/create_oepas1.sh"
+
+      config.vm.provision "deploy_update", type: "shell", inline: <<-SHELL
+        cp /vagrant/files/customer.p.v2 /psc/wrk/oepas1/openedge/customer.p
+      SHELL
+    end
+  end
+
+end
