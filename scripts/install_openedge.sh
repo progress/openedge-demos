@@ -36,9 +36,8 @@ fi
 mkdir -p /tmp/openedge
 tar xzf $FILES/$OPENEDGE_PACKAGE -C /tmp/openedge
 cd /tmp
-sudo ./openedge/proinst -b /files/response_${VERSION}.ini -l /tmp/install.log
+time sudo ./openedge/proinst -b /files/response_${VERSION}.ini -l /tmp/install.log
 rm -rf /tmp/openedge
 cd /
-tar czf $FILES/psc_${VERSION}.tar.gz psc
 
 # show_version

@@ -10,11 +10,12 @@ then
   cd /psc/wrk
   if [ -f /files/oepas1.tar.gz ]
   then
-    tar xzvf /files/oepas1.tar.gz
+    tar xzf /files/oepas1.tar.gz
   else
-    pasman create -v oepas1
+    time pasman create -v oepas1
     cp /vagrant/files/openedge.properties /psc/wrk/oepas1/conf
     cp /vagrant/files/customer.p /psc/wrk/oepas1/openedge
+    tar czf /files/oepas1.tar.gz oepas1
   fi
   ./oepas1/bin/tcman.sh pasoestart -restart
 fi
