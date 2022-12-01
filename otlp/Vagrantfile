@@ -1,0 +1,70 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+
+  config.vm.network "private_network", ip: "192.168.56.215"
+
+  config.vm.synced_folder "c:/files", "/files"
+  config.vm.synced_folder "../scripts", "/scripts"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = "4096"
+  end
+
+  config.vm.provision "os", type: "shell", inline: <<-SHELL
+    if [ ! -f /usr/bin/jq ]
+    then
+      apt-get update
+      apt-get install -y jq
+    fi
+    if [ ! -f /etc/rc.local ]
+    then
+      cp /vagrant/files/rc.local /etc/rc.local
+      chmod +x /etc/rc.local
+    fi    
+  SHELL
+
+  config.vm.provision "docker" do |d|
+  end
+
+  config.vm.provision "install_docker_compose",
+    type: "shell",
+    path: "../scripts/install_docker_compose.sh"
+
+  config.vm.provision "install_openjdk",
+    type: "shell",
+    path: "../scripts/install_openjdk.sh",
+    args: "17"
+
+  config.vm.provision "install_openedge",
+    type: "shell",
+    path: "../scripts/install_openedge.sh",
+    args: "12.6"
+
+  config.vm.provision "create_sports2020",
+    type: "shell",
+    path: "../scripts/create_sports2020.sh"
+
+  config.vm.provision "create_oepas1",
+    type: "shell",
+    path: "../scripts/create_oepas1.sh"
+
+  config.vm.provision "demo", type: "shell", 
+    privileged: false,
+    inline: <<-SHELL
+    # set -x
+    cd /vagrant/docker
+    docker-compose up -d 
+  SHELL
+
+  config.vm.provision "upload_agentkey",
+    type: "shell",
+    path: "../scripts/upload_agentkey.sh"
+
+  config.vm.provision "install_oecc_agent",
+    type: "shell",
+    path: "../scripts/install_oecc_agent.sh"
+
+=begin
+=end
+
+end
