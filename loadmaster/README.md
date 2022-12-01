@@ -46,3 +46,6 @@ Note: You can use CTRL-C to stop the test program.
 The production traffic has been routed to the new environment.
 
 The previous enviroment can be kept for a while in case that changes need to be rolled back. Rolling back is as simple as re-enabling the "Blue" env and disabling the "Green" env.
+
+Notes:
+* You can use `vagrant destroy -f` to delete the infrastructure.
