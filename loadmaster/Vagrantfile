@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "c:/files", "/files"
   config.vm.synced_folder "../scripts", "/scripts"
 
-  LM_IP_ADDRESS = "10.0.0.126"
+  LM_IP_ADDRESS = "10.0.0.226"
 
   config.vm.define vm_name = "oedb" do |config|
     config.vm.hostname = "oedb"
@@ -38,6 +38,12 @@ Vagrant.configure("2") do |config|
     config.vm.provision "create_sports2020",
       type: "shell",
       path: "../scripts/create_sports2020.sh"
+
+    config.vm.provision "create_virtual_services",
+      type: "shell",
+      path: "../scripts/create_virtual_services.sh",
+      args: "#{LM_IP_ADDRESS}"
+
   end
 
   # Blue Environment
