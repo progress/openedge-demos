@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # set -x
+DEMO=${DEMO-/vagrant}
 
-cp /vagrant/files/serverInfo.json /files
+cp $DEMO/files/serverInfo.json /files
 
 OECC_USER_NAME=admin
 OECC_USER_PASSWORD=admin
