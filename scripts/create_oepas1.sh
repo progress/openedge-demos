@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # set -x
+DEMO=${DEMO-/vagrant}
 
 if [ ! -d /psc/wrk/oepas1 ]
 then
@@ -12,12 +13,12 @@ then
   then
     cd /
     tar xzf /files/oepas1.tar.gz
-    cp /vagrant/files/openedge.properties /psc/wrk/oepas1/conf
+    cp /files/openedge.properties /psc/wrk/oepas1/conf
   else
     cd /psc/wrk
     time pasman create -v oepas1
-    cp /vagrant/files/openedge.properties /psc/wrk/oepas1/conf
-    cp /vagrant/files/customer.p /psc/wrk/oepas1/openedge
+    cp /files/openedge.properties /psc/wrk/oepas1/conf
+    cp $DEMO/files/customer.p /psc/wrk/oepas1/openedge
     cd /
     tar czf /files/oepas1.tar.gz psc/dlc/servers/pasoe/conf/instances.unix psc/wrk/oepas1
   fi
