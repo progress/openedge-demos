@@ -1,4 +1,5 @@
-loadmaster/.vagrant
+loadmaster-demo1/.vagrant
+loadmaster-demo2/.vagrant
 openedge-12.6.0/.vagrant
 openedge-12.6.0/package.box
 otlp/.vagrant
