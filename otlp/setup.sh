@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$EUID" -ne "0" ]
+then
+  echo "Usage: sudo ./setup.sh"
+  echo "Program must be as root user"
+  exit 1
+fi
+
 export DEMO=`pwd`
 
 FILE=PROGRESS_OE_12.6_LNX_64.tar.gz
@@ -30,7 +37,21 @@ then
   exit
 fi
 
-IP_ADDRESS=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r '.network.interface[0].ipv4.ipAddress[0].privateIpAddress'`
+if [ ! -f /usr/bin/jq ]
+then
+  apt-get update
+  apt-get install -y jq
+fi
+
+if sudo dmidecode -s bios-version | fgrep -qi amazon
+then
+  PRIVATE_IP_ADDRESS=`curl -s http://169.254.169.254/latest/meta-data/local-ipv4`
+else
+  if sudo dmidecode -s system-manufacturer | fgrep -q "Microsoft Corporation"
+  then
+    PRIVATE_IP_ADDRESS=`curl -s -H Metadata:true --noproxy "*" "http://169.254.169.254/metadata/instance?api-version=2021-02-01" | jq -r '.network.interface[0].ipv4.ipAddress[0].privateIpAddress'`
+  fi
+fi
 
 if [ ! -f docker/oecc/PROGRESS_OECC_SERVER_1.2.0_LNX_64.tar.gz ]
 then
@@ -40,18 +61,12 @@ fi
 for file in openedge.properties otagentoedb.yaml otagentpasoe.yaml
 do
   cp files/$file /files
-  if [ "${IP_ADDRESS}" != "" ]
+  if [ "${PRIVATE_IP_ADDRESS}" != "" ]
   then
-    sed -i "s/192.168.56.215/${IP_ADDRESS}/g" /files/$file
+    sed -i "s/192.168.56.215/${PRIVATE_IP_ADDRESS}/g" /files/$file
   fi
 done
 
-# OS
-if [ ! -f /usr/bin/jq ]
-then
-  apt-get update
-  apt-get install -y jq
-fi
 if [ ! -f /etc/rc.local ]
 then
   cp files/rc.local /etc/rc.local
