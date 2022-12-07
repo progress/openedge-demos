@@ -1,0 +1,125 @@
+Vagrant.configure("2") do |config|
+  # config.vm.box = "ubuntu/focal64"
+  config.vm.box = "openedge-12.6.0"
+
+  config.vm.synced_folder "c:/files", "/files"
+  config.vm.synced_folder "../scripts", "/scripts"
+
+  LM_IP_ADDRESS = "10.0.0.126"
+
+  # DB  
+  config.vm.define vm_name = "oedb" do |db|
+    DB_HOSTNAME = "192.168.56.120"
+    db.vm.hostname = "oedb"
+    db.vm.network "private_network", ip: "#{DB_HOSTNAME}"
+
+    db.vm.provision "os", type: "shell", inline: <<-SHELL
+      # set -x
+      if [ ! -f /usr/bin/jq ]
+      then
+        apt-get update
+        apt-get install -y jq
+      fi
+      if [ ! -f /etc/rc.local ]
+      then
+        cp /vagrant/files/rc.local.oedb /etc/rc.local
+        chmod +x /etc/rc.local
+      fi
+    SHELL
+
+    db.vm.provision "install_openjdk",
+      type: "shell",
+      path: "../scripts/install_openjdk.sh",
+      args: "17"
+
+    db.vm.provision "install_openedge",
+      type: "shell",
+      path: "../scripts/install_openedge.sh",
+      args: "12.6"
+
+    db.vm.provision "deploy_oedb", type: "shell", inline: <<-SHELL
+    if [ ! -f /psc/wrk/sports2020.db ]
+    then      
+      mkdir -p /install
+      tar xzCf /install /files/db.tar.gz
+      OE_ENV=db0 /install/app/deploy.sh
+    fi      
+    SHELL
+
+  end
+
+  # PASOE
+  (1..2).each do |i|
+    config.vm.define vm_name = "pasoe%d" %i do |pasoe|
+      IP_ADDRESS = "192.168.56.#{120+i}"
+      pasoe.vm.hostname = "#{vm_name}"
+      pasoe.vm.network "private_network", ip: "#{IP_ADDRESS}"
+
+      pasoe.vm.provision "os", type: "shell", inline: <<-SHELL
+        if [ ! -f /usr/bin/jq ]
+        then
+          apt-get update
+          apt-get install -y jq
+        fi  
+        if [ ! -f /etc/rc.local ]
+        then
+          cp /vagrant/files/rc.local.pasoe /etc/rc.local
+          chmod +x /etc/rc.local
+        fi
+      SHELL
+
+      pasoe.vm.provision "install_openjdk",
+        type: "shell",
+        path: "../scripts/install_openjdk.sh",
+        args: "17"
+
+      pasoe.vm.provision "install_openedge",
+        type: "shell",
+        path: "../scripts/install_openedge.sh",
+        args: "12.6"
+      
+      pasoe.vm.provision "deploy_pasoe", type: "shell", inline: <<-SHELL
+        if [ ! -d /psc/wrk/oepas1 ]
+        then      
+          mkdir -p /install
+          tar xzCf /install /files/pas.tar.gz
+          OE_ENV=pasoe DBHostName=#{DB_HOSTNAME} /install/app/deploy.sh
+        fi      
+      SHELL
+
+    end
+  end
+
+  # WEB
+  (1..2).each do |i|
+    config.vm.define vm_name = "web%d" %i do |web|
+      IP_ADDRESS = "192.168.56.#{130+i}"
+      web.vm.box = "ubuntu/focal64"
+      web.vm.hostname = "#{vm_name}"
+      web.vm.network "private_network", ip: "#{IP_ADDRESS}"
+
+      web.vm.provision "os", type: "shell", inline: <<-SHELL
+      if [ ! -f /usr/bin/jq ]
+        then
+          apt-get update
+          apt-get install -y jq
+        fi  
+        if [ ! -f /usr/sbin/nginx ]
+        then
+          apt-get update
+          apt-get install -y nginx
+        fi  
+      SHELL
+
+      web.vm.provision "deploy_web", type: "shell", inline: <<-SHELL
+        if [ ! -f /var/www/html/main.html ]
+        then
+          mkdir -p /install
+          tar xzCf /install /files/web.tar.gz
+          OE_ENV=webserver PASOEURL=http://#{LM_IP_ADDRESS}:8810 /install/app/deploy.sh
+        fi
+      SHELL
+    end
+  end
+
+end
