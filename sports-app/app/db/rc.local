@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# rc.local
+#
+
+export DLC=/psc/dlc
+export PATH=$DLC/bin:$PATH
+
+cd /psc/wrk
+proserve sports2020 -S 20000
+
+exit 0
