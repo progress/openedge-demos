@@ -34,7 +34,7 @@ function create_vm ()
 }
 
 # Create NSG
-az deployment group create --resource-group DemoResourceGroup --template-file ./templates/az/nsg.json --parameters "{\"networkSecurityGroupName\": {\"value\": \"${RESOURCE_GROUP}-nsg\"}}"
+az deployment group create --resource-group DemoResourceGroup --template-file ./templates/az/nsg.json --parameters "{\"networkSecurityGroupName\": {\"value\": \"${RESOURCE_GROUP}-nsg\"}}" > $TEMP/output.json
 
 VM_SIZE=Standard_B1s PUBLIC_IP_ADDRESS=AccessVMPublicIP create_vm AccessVM
 
