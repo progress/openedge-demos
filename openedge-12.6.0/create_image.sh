@@ -16,6 +16,7 @@ function create_vm ()
     --name $NAME \
     --image UbuntuLTS \
     --size Standard_B2s \
+    --nsg ${NAME}-nsg \
     --public-ip-sku Standard \
     --nic-delete-option delete \
     --os-disk-delete-option delete \
@@ -36,7 +37,7 @@ function delete_vm ()
     --name ${NAME}PublicIP > $TEMP/output.json
   az network nsg delete \
     --resource-group $RESOURCE_GROUP \
-    --name ${NAME}NSG > $TEMP/output.json
+    --name ${NAME}-nsg > $TEMP/output.json
 }
 
 function copy_files ()
@@ -47,6 +48,12 @@ function copy_files ()
     -o StrictHostKeyChecking=no \
     $* \
     azureuser@${IP_ADDRESS}:/files
+
+  if [ "$?" -ne 0 ]
+  then
+    echo ERROR: Error copying files to VM.
+    exit 1
+  fi
 }
 
 function run_cmd ()
@@ -57,7 +64,15 @@ function run_cmd ()
     -o StrictHostKeyChecking=no \
     azureuser@${IP_ADDRESS} \
     "$1"
+
+  if [ "$?" -ne 0 ]
+  then
+    echo ERROR: Error connecting to VM.
+    exit 1
+  fi
 }
+
+./create_nsg.sh
 
 if ! az vm show --resource-group $RESOURCE_GROUP --name $NAME --show-details > $TEMP/output.json 2> /dev/null
 then
@@ -79,7 +94,7 @@ copy_files ~/clouddrive/openedge-demos.tar.gz
 
 run_cmd "tar xzf /files/openedge-demos.tar.gz; cd openedge-demos/openedge-12.6.0; sudo bash ./setup.sh"
 
-run_cmd "ls -l /psc/dlc"
+run_cmd "cat /psc/dlc/version"
 
 run_cmd "sudo waagent -deprovision+user -force"
 
