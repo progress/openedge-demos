@@ -15,13 +15,6 @@
                 "description": "The base URI where artifacts required by this template are located including a trailing '/'"
             },
             "defaultValue": "[deployment().properties.templateLink.uri]"
-        },
-        "_artifactsLocationSasToken": {
-            "type": "securestring",
-            "metadata": {
-                "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated. Use the defaultValue if the staging location is not secured."
-            },
-            "defaultValue": ""
         }
     },
     "variables": {
@@ -29,13 +22,13 @@
     },
     "resources": [
         {
-            "name": "shared",
+            "name": "webserver",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-09-01",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[variables('webserverTemplateUrl)]",
+                    "uri": "https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/webserver.template.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
