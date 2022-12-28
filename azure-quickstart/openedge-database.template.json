@@ -71,8 +71,8 @@
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2017-08-01",
-            "name": "[variables('publicIPAddressName]",
-            "location": "eastus",
+            "name": "[variables('publicIPAddressName)]",
+            "location": "[parameters('location')]",
             "sku": {
                 "name": "Basic",
                 "tier": "Regional"
