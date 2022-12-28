@@ -71,7 +71,7 @@
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2017-08-01",
-            "name": "[variables('publicIPAddressName)]",
+            "name": "[variables('publicIPAddressName')]",
             "location": "[parameters('location')]",
             "sku": {
                 "name": "Basic",
