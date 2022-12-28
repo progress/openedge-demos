@@ -11,7 +11,7 @@
         }
     },
     "variables": {
-        "virtualNetworkName": "[concat(resourceGroup().location, '-vnet')]"
+        "virtualNetworkName": "[concat(resourceGroup().name, '-vnet')]"
     },
     "resources": [
         {

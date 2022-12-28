@@ -87,7 +87,7 @@
         {
             "type": "Microsoft.Network/networkInterfaces",
             "apiVersion": "2017-06-01",
-            "name": "",            
+            "name": "[variables('networkInterfaceName')]",
             "location": "[parameters('location')]",            
             "properties": {
                 "ipConfigurations": [
