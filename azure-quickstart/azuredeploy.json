@@ -11,8 +11,32 @@
         }
     },
     "variables": {
+        "virtualNetworkName": "[concat(resourceGroup().location, '-vnet')]"
     },
     "resources": [
+        {
+            "dependsOn": [],
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2017-06-01",
+            "name": "[parameters('virtualNetworkName')]",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.10.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "default",
+                        "properties": {
+                            "addressPrefix": "10.10.0.0/24"
+                        }
+                    }
+                ]
+            }
+        },
         {
             "name": "openedge-database",
             "type": "Microsoft.Resources/deployments",
