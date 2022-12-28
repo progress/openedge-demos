@@ -20,6 +20,40 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/openedge-database.template.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "webserver",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-09-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/openedge-pasoe.template.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "webserver",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-09-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
                     "uri": "https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/webserver.template.json",
                     "contentVersion": "1.0.0.0"
                 },
