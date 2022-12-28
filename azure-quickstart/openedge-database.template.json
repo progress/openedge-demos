@@ -11,7 +11,10 @@
         }
     },
     "variables": {
-        "networkSecurityGroupName": "database-nsg"
+        "networkSecurityGroupName": "database-nsg",
+        "vmName": "DB0",        
+        "publicIPAddressName": "[concat(variables('vmName'), '-ip')]",
+        "networkInterfaceName": "[concat(variables('vmName'), '-nic')]"
     },
     "resources": [
         {
@@ -66,9 +69,58 @@
             }
         },
         {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2017-08-01",
+            "name": "[variables('publicIPAddressName]",
+            "location": "eastus",
+            "sku": {
+                "name": "Basic",
+                "tier": "Regional"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "ipTags": []
+            }
+        },        
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2017-06-01",
+            "name": "",            
+            "location": "[parameters('location')]",            
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.4.0.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(variables('virtualNetworks_OEHA_vnet_externalid'), '/subnets/default')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableAcceleratedNetworking": false,
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName)]"
+                }
+            }
+        },        
+        {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2017-12-01",
-            "name": "DB0",
+            "name": "[variables('vmName')]",
             "location": "[parameters('location')]",
             "properties": {
                 "hardwareProfile": {
@@ -84,6 +136,13 @@
                         "sku": "22_04-lts-gen2",
                         "version": "latest"
                     }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(parameters('namespace'), concat(variables('vmName'), '-nic')))]"
+                        }
+                    ]
                 }
             }
         }
