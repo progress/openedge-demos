@@ -30,16 +30,13 @@
                 "description": "Location where the network security group resource will be created."
             },
             "defaultValue": "[resourceGroup().location]"
-        },
-        "OpenEdgeImage_externalid": {
-            "type": "String"
-        }        
+        }
     },
     "variables": {
-        "networkSecurityGroupName": "database-nsg",
-        "vmName": "DB0",
-        "networkInterfaceName": "[concat(variables('vmName'), '-nic')]",
-        "customData": "#!/bin/bash\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.db.sh | sudo bash"
+        "networkSecurityGroupName": "accessvm-nsg",
+        "vmName": "AccessVM",
+        "publicIPAddressName": "[concat(variables('vmName'), '-ip')]",
+        "networkInterfaceName": "[concat(variables('vmName'), '-nic')]"
     },
     "resources": [
         {
@@ -69,29 +66,26 @@
                             "sourceAddressPrefixes": [],
                             "destinationAddressPrefixes": []
                         }
-                    },
-                    {
-                        "name": "AllowAny20000Inbound",
-                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('networkSecurityGroupName'), 'AllowAny20000Inbound')]",
-                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
-                        "properties": {
-                            "description": "Allow access using port 20000",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "20000",
-                            "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 1010,
-                            "direction": "Inbound",
-                            "sourcePortRanges": [],
-                            "destinationPortRanges": [],
-                            "sourceAddressPrefixes": [],
-                            "destinationAddressPrefixes": []
-                        }
                     }
                 ]
             }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2017-08-01",
+            "name": "[variables('publicIPAddressName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard"
+            },
+            "properties": {
+                "publicIPAddressVersion": "IPv4",
+                "publicIPAllocationMethod": "Static",
+                "idleTimeoutInMinutes": 4
+            },
+            "zones": [
+                "1"
+            ]
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
@@ -99,15 +93,17 @@
             "name": "[variables('networkInterfaceName')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
-            ],            
+            ],
             "location": "[parameters('location')]",
             "properties": {
                 "ipConfigurations": [
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAddress": "10.8.0.5",
                             "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+                            },
                             "subnet": {
                                 "id": "[concat(parameters('virtualNetworkExternalId'), '/subnets/default')]"
                             },                            
@@ -147,7 +143,10 @@
                         "deleteOption": "[parameters('osDiskDeleteOption')]"
                     },
                     "imageReference": {
-                        "id": "[parameters('OpenEdgeImage_externalid')]"
+                        "publisher": "canonical",
+                        "offer": "0001-com-ubuntu-server-jammy",
+                        "sku": "22_04-lts-gen2",
+                        "version": "latest"
                     }
                 },
                 "networkProfile": {
@@ -168,8 +167,7 @@
                         "patchSettings": {
                             "patchMode": "ImageDefault"
                         }
-                    },
-                    "customData": "[base64(variables('customData'))]"
+                    }
                 },
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
@@ -183,9 +181,9 @@
         }        
     ],
     "outputs": {
-        "dbHostName": {
+        "publicIPAddress": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))).ipConfigurations[0].properties.privateIPAddress]"
+            "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))).ipAddress]"
         }
     }
 }

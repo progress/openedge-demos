@@ -1,5 +1,5 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
@@ -8,6 +8,29 @@
                 "description": "Location for all resources."
             },
             "defaultValue": "[resourceGroup().location]"
+        },
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "azureuser"
+        },
+        "adminPassword": {
+            "type": "string"
+        },
+        "networkInterfaceConfigurations1": {
+            "type": "array"
+        },
+        "networkInterfaceConfigurations2": {
+            "type": "array"
+        },
+        "OpenEdgeImage_externalid": {
+            "type": "String"
+        },
+        "instanceCount": {
+            "type": "string",
+            "defaultValue": "1"
+        },
+        "loadMasterIPAddress": {
+            "type": "string"
         }
     },
     "variables": {
@@ -15,7 +38,6 @@
     },
     "resources": [
         {
-            "dependsOn": [],
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "2017-06-01",
             "name": "[variables('virtualNetworkName')]",
@@ -24,23 +46,55 @@
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "10.10.0.0/16"
+                        "10.8.0.0/16"
                     ]
                 },
                 "subnets": [
                     {
                         "name": "default",
                         "properties": {
-                            "addressPrefix": "10.10.0.0/24"
+                            "addressPrefix": "10.8.0.0/24"
                         }
                     }
                 ]
             }
         },
         {
-            "name": "openedge-database",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-09-01",
+            "name": "accessvm",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/accessvm.template.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkExternalId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-09-01",
+            "name": "openedge-database",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -48,16 +102,32 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "virtualNetworkExternalId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+                    },
                     "location": {
                         "value": "[parameters('location')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "OpenEdgeImage_externalid": {
+                        "value": "[parameters('OpenEdgeImage_externalid')]"
                     }
                 }
             }
         },
         {
-            "name": "openedge-pasoe",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-09-01",
+            "name": "pasoe",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+                "[resourceId('Microsoft.Resources/deployments/', 'openedge-database')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -67,14 +137,36 @@
                 "parameters": {
                     "location": {
                         "value": "[parameters('location')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "networkInterfaceConfigurations": {
+                        "value": "[parameters('networkInterfaceConfigurations1')]"
+                    },
+                    "OpenEdgeImage_externalid": {
+                        "value": "[parameters('OpenEdgeImage_externalid')]"
+                    },
+                    "instanceCount": {
+                        "value": "[parameters('instanceCount')]"
+                    },
+                    "dbHostName": {
+                        "value": "[reference('openedge-database').outputs.dbHostName.value]"
                     }
                 }
             }
         },
         {
-            "name": "webserver",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2016-09-01",
+            "name": "webserver",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+                "[resourceId('Microsoft.Resources/deployments/', 'pasoe')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -84,9 +176,34 @@
                 "parameters": {
                     "location": {
                         "value": "[parameters('location')]"
+                    },
+                    "adminUsername": {
+                        "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    },
+                    "networkInterfaceConfigurations": {
+                        "value": "[parameters('networkInterfaceConfigurations2')]"
+                    },
+                    "instanceCount": {
+                        "value": "[parameters('instanceCount')]"
+                    },
+                    "loadMasterIPAddress": {
+                        "value": "[parameters('loadMasterIPAddress')]"
                     }
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+        "WebURL": {
+            "type": "string",
+            "value": "[concat('http://', parameters('loadMasterIPAddress'), ':80')]"
+        },
+        "accessVMIPAddress": {
+            "type": "string",
+            "value": "[reference('accessvm').outputs.publicIPAddress.value]"
+        }
+    }
 }
