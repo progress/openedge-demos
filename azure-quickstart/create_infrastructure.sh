@@ -26,7 +26,7 @@ echo Deployment to Azure completed with status $?
 
 if [ "$?" -ne 0 ]
 then
-  cut -d: -f2- $TEMP/error.json | jq
+  cut -d: -f2- $TEMP/error.json | jq '.message'  
 else
   jq '.properties.outputs' < /tmp/output.json
 fi

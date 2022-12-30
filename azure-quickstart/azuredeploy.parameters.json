@@ -5,16 +5,6 @@
       "adminPassword": {
           "value": "" // TODO: Fill in parameter value
       },
-      "networkInterfaceConfigurations1": {
-          "value": [
-              // TODO: Fill in parameter value
-          ]
-      },
-      "networkInterfaceConfigurations2": {
-          "value": [
-              // TODO: Fill in parameter value
-          ]
-      },
       "OpenEdgeImage_externalid": {
           "value": "" // TODO: Fill in parameter value
       },

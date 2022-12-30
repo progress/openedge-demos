@@ -16,14 +16,8 @@
         "adminPassword": {
             "type": "string"
         },
-        "networkInterfaceConfigurations1": {
-            "type": "array"
-        },
-        "networkInterfaceConfigurations2": {
-            "type": "array"
-        },
         "OpenEdgeImage_externalid": {
-            "type": "String"
+            "type": "string"
         },
         "instanceCount": {
             "type": "string",
@@ -144,9 +138,6 @@
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
                     },
-                    "networkInterfaceConfigurations": {
-                        "value": "[parameters('networkInterfaceConfigurations1')]"
-                    },
                     "OpenEdgeImage_externalid": {
                         "value": "[parameters('OpenEdgeImage_externalid')]"
                     },
@@ -182,9 +173,6 @@
                     },
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
-                    },
-                    "networkInterfaceConfigurations": {
-                        "value": "[parameters('networkInterfaceConfigurations2')]"
                     },
                     "instanceCount": {
                         "value": "[parameters('instanceCount')]"
