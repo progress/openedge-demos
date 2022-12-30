@@ -14,7 +14,7 @@
             "defaultValue": "azureuser"
         },
         "adminPassword": {
-            "type": "string"
+            "type": "securestring"
         },
         "OpenEdgeImage_externalid": {
             "type": "string"

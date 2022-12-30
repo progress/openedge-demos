@@ -7,7 +7,7 @@
             "defaultValue": "azureuser"
         },
         "adminPassword": {
-            "type": "string"
+            "type": "securestring"
         },
         "virtualNetworkExternalId": {
             "type": "string"
