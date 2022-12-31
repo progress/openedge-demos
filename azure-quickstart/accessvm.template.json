@@ -27,7 +27,7 @@
         "location": {
             "type": "string",
             "metadata": {
-                "description": "Location where the network security group resource will be created."
+                "description": "Location for all resources."
             },
             "defaultValue": "[resourceGroup().location]"
         }
@@ -140,7 +140,7 @@
                         "managedDisk": {
                             "storageAccountType": "[parameters('osDiskType')]"
                         },
-                        "deleteOption": "[parameters('osDiskDeleteOption')]"
+                        "deleteOption": "Delete"
                     },
                     "imageReference": {
                         "publisher": "canonical",

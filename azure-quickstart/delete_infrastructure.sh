@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RESOURCE_GROUP=DemoResourceGroup
+RESOURCE_GROUP=1DemoResourceGroup
 TEMP=/tmp
 
 function delete_vm ()
@@ -24,14 +24,15 @@ az vmss delete --resource-group $RESOURCE_GROUP --name WebServer
 az vmss delete --resource-group $RESOURCE_GROUP --name PASOE
 az vm delete --resource-group $RESOURCE_GROUP --name DB0 --yes
 
+# az network nic delete --resource-group $RESOURCE_GROUP --name DB0-nic
 # az network public-ip delete --resource-group $RESOURCE_GROUP --name DB0-ip
 
+# az network nsg delete --resource-group $RESOURCE_GROUP --name webserver-nsg
+# az network nsg delete --resource-group $RESOURCE_GROUP --name pasoe-nsg
+# az network nsg delete --resource-group $RESOURCE_GROUP --name database-nsg
+
+az network vnet delete --resource-group $RESOURCE_GROUP --name ${RESOURCE_GROUP}-vnet
 exit
-az network nsg delete --resource-group $RESOURCE_GROUP --name webserver-nsg
-az network nsg delete --resource-group $RESOURCE_GROUP --name pasoe-nsg
-az network nsg delete --resource-group $RESOURCE_GROUP --name database-nsg
 
 # az network nsg delete --resource-group $RESOURCE_GROUP --name accessvm-nsg
 # az vm delete --resource-group $RESOURCE_GROUP --name AccessVM --yes
-
-exit

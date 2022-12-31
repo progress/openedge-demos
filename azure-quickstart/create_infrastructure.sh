@@ -1,7 +1,7 @@
 #!/bin/bash
 
 TEMP=/tmp
-RESOURCE_GROUP=DemoResourceGroup
+RESOURCE_GROUP=1DemoResourceGroup
 
 GITHUB_URL=https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart
 S3_URL=https://${S3BUCKET}.s3.amazonaws.com/templates
@@ -21,12 +21,14 @@ az deployment group create \
     --resource-group ${RESOURCE_GROUP} \
     --template-file ~/.build/azuredeploy.json \
     --parameters @~/.build/azuredeploy.parameters.json > $TEMP/output.json 2> $TEMP/error.json
+STATUS=$?
+echo Deployment to Azure completed with status $STATUS
 
-echo Deployment to Azure completed with status $?
-
-if [ "$?" -ne 0 ]
+if [ "$STATUS" != "0" ]
 then
-  cut -d: -f2- $TEMP/error.json | jq '.message'  
+  cat $TEMP/error.json
+  cut -d: -f2- $TEMP/error.json | jq '.message'
+  cut -d: -f2- $TEMP/error.json | jq -r '.error.details[0].message' | jq '.error.details[0].message'
 else
   jq '.properties.outputs' < /tmp/output.json
 fi

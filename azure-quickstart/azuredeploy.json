@@ -34,12 +34,6 @@
                 "description": "The number of VMs to run in the scale set."
             },
             "defaultValue": "1"
-        },
-        "loadMasterIPAddress": {
-            "type": "string",
-            "metadata": {
-                "description": "Public IP address to access LoadMaster."
-            }            
         }
     },
     "variables": {
@@ -90,6 +84,32 @@
                     },
                     "adminUsername": {
                         "value": "[parameters('adminUsername')]"
+                    },
+                    "adminPassword": {
+                        "value": "[parameters('adminPassword')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2016-09-01",
+            "name": "loadmaster",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/loadmaster.template.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "virtualNetworkExternalId": {
+                        "value": "[resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
                     },
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
@@ -171,7 +191,8 @@
             "name": "webserver",
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
-                "[resourceId('Microsoft.Resources/deployments/', 'pasoe')]"
+                "[resourceId('Microsoft.Resources/deployments/', 'pasoe')]",
+                "[resourceId('Microsoft.Resources/deployments/', 'loadmaster')]"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -193,7 +214,7 @@
                         "value": "[parameters('instanceCount')]"
                     },
                     "loadMasterIPAddress": {
-                        "value": "[parameters('loadMasterIPAddress')]"
+                        "value": "[reference('loadmaster').outputs.loadMasterIPAddress.value]"
                     }
                 }
             }
@@ -202,7 +223,7 @@
     "outputs": {
         "WebURL": {
             "type": "string",
-            "value": "[concat('http://', parameters('loadMasterIPAddress'), ':80')]"
+            "value": "[concat('http://', reference('loadmaster').outputs.loadMasterIPAddress.value, ':80')]"
         },
         "accessVMIPAddress": {
             "type": "string",

@@ -5,7 +5,7 @@
         "location": {
             "type": "string",
             "metadata": {
-                "description": "Location where the network security group resource will be created."
+                "description": "Location for all resources."
             },
             "defaultValue": "[resourceGroup().location]"
         },
@@ -62,8 +62,11 @@
             ]
         },
         "loadMasterIPAddress": {
-            "type": "string"
-        }
+            "type": "string",
+            "metadata": {
+                "description": "Public IP address to access LoadMaster."
+            }            
+        }        
     },
     "variables": {        
         "virtualNetworkName": "[concat(resourceGroup().name, '-vnet')]",
