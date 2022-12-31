@@ -106,7 +106,6 @@
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAddress": "10.8.0.5",
                             "privateIPAllocationMethod": "Dynamic",
                             "subnet": {
                                 "id": "[concat(parameters('virtualNetworkExternalId'), '/subnets/default')]"
