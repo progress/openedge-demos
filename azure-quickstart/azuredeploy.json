@@ -22,7 +22,7 @@
                 "description": "The password of the administrator account."
             }
         },
-        "OpenEdgeImage_externalid": {
+        "OE_Image_externalid": {
             "type": "string",
             "metadata": {
                 "description": "The ID of the OpenEdge image."
