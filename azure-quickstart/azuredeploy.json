@@ -33,7 +33,7 @@
             "metadata": {
                 "description": "The number of VMs to run in the scale set."
             },
-            "defaultValue": "1"
+            "defaultValue": "2"
         },
         "packageLocation": {
             "type": "string",
