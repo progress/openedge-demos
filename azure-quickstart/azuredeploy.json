@@ -35,26 +35,33 @@
             },
             "defaultValue": "1"
         },
+        "packageLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The URL to the location of the deployment packages."
+            },
+            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2"
+        },
         "DB_Deployment_Package": {
             "type": "string",
             "metadata": {
                 "description": "The database deployment package."
             },
-            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2/db.tar.gz"
+            "defaultValue": "db.tar.gz"
         },
         "PAS_Deployment_Package": {
             "type": "string",
             "metadata": {
                 "description": "The PASOE deployment package."
             },
-            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2/pas.tar.gz"
+            "defaultValue": "pas.tar.gz"
         },
         "WEB_Deployment_Package": {
             "type": "string",
             "metadata": {
                 "description": "The WEB UI deployment package."
             },
-            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2/web.tar.gz"
+            "defaultValue": "web.tar.gz"
         }
     },
     "variables": {
@@ -168,7 +175,7 @@
                         "value": "[parameters('OE_Image_externalid')]"
                     },
                     "DB_Deployment_Package": {
-                        "value": "[parameters('DB_Deployment_Package')]"
+                        "value": "[concat(parameters('packageLocation'), '/', parameters('DB_Deployment_Package'))]"
                     }                    
                 }
             }
@@ -207,7 +214,7 @@
                         "value": "[reference('openedge-database').outputs.dbHostName.value]"
                     },
                     "PAS_Deployment_Package": {
-                        "value": "[parameters('PAS_Deployment_Package')]"
+                        "value": "[concat(parameters('packageLocation'), '/', parameters('PAS_Deployment_Package'))]"
                     }
                 }
             }
@@ -244,7 +251,7 @@
                         "value": "[reference('loadmaster').outputs.loadMasterIPAddress.value]"
                     },
                     "WEB_Deployment_Package": {
-                        "value": "[parameters('WEB_Deployment_Package')]"
+                        "value": "[concat(parameters('packageLocation'), '/', parameters('WEB_Deployment_Package'))]"
                     }
                 }
             }
