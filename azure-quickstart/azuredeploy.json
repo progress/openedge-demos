@@ -221,6 +221,10 @@
         }
     ],
     "outputs": {
+        "LoadMaster": {
+            "type": "string",
+            "value": "[concat('https://', reference('loadmaster').outputs.loadMasterIPAddress.value, ':8443')]"
+        },
         "WebURL": {
             "type": "string",
             "value": "[concat('http://', reference('loadmaster').outputs.loadMasterIPAddress.value, ':80')]"
