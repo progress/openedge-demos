@@ -5,7 +5,7 @@
         "virtualNetworkExternalId": {
             "value": "" // TODO: Fill in parameter value
         },
-        "OpenEdgeImage_externalid": {
+        "OE_Image_externalid": {
             "value": "" // TODO: Fill in parameter value
         },
         "adminPassword": {

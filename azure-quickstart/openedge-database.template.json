@@ -31,7 +31,7 @@
             },
             "defaultValue": "[resourceGroup().location]"
         },
-        "OpenEdgeImage_externalid": {
+        "OE_Image_externalid": {
             "type": "string"
         }        
     },
@@ -146,7 +146,7 @@
                         "deleteOption": "[parameters('osDiskDeleteOption')]"
                     },
                     "imageReference": {
-                        "id": "[parameters('OpenEdgeImage_externalid')]"
+                        "id": "[parameters('OE_Image_externalid')]"
                     }
                 },
                 "networkProfile": {

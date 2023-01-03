@@ -143,8 +143,8 @@
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
                     },
-                    "OpenEdgeImage_externalid": {
-                        "value": "[parameters('OpenEdgeImage_externalid')]"
+                    "OE_Image_externalid": {
+                        "value": "[parameters('OE_Image_externalid')]"
                     }
                 }
             }
@@ -173,8 +173,8 @@
                     "adminPassword": {
                         "value": "[parameters('adminPassword')]"
                     },
-                    "OpenEdgeImage_externalid": {
-                        "value": "[parameters('OpenEdgeImage_externalid')]"
+                    "OE_Image_externalid": {
+                        "value": "[parameters('OE_Image_externalid')]"
                     },
                     "instanceCount": {
                         "value": "[parameters('instanceCount')]"
