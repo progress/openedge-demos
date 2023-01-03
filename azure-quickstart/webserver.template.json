@@ -66,13 +66,19 @@
             "metadata": {
                 "description": "Public IP address to access LoadMaster."
             }            
-        }        
+        },
+        "WEB_Deployment_Package": {
+            "type": "string",
+            "metadata": {
+                "description": "The WEB UI deployment package."
+            }
+        }
     },
     "variables": {        
         "virtualNetworkName": "[concat(resourceGroup().name, '-vnet')]",
         "networkSecurityGroupName": "webserver-nsg",
         "namingInfix": "[toLower(substring(concat(parameters('virtualMachineScaleSetName'), uniqueString(resourceGroup().id)), 0, 9))]",
-        "customData": "[concat('#!/bin/bash\nexport HOST=', parameters('loadMasterIPAddress'), '\nexport PORT=8810', '\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.web.sh | bash')]",
+        "customData": "[concat('#!/bin/bash\nexport DEPLOYMENT_PACKAGE=', parameters('WEB_Deployment_Package'), '\nexport HOST=', parameters('loadMasterIPAddress'), '\nexport PORT=8810', '\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.web.sh | bash')]",
         "networkInterfaceConfigurations": [
             {
                 "name": "[concat(resourceGroup().name, '-vnet-nic02')]",

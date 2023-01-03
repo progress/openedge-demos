@@ -34,6 +34,27 @@
                 "description": "The number of VMs to run in the scale set."
             },
             "defaultValue": "1"
+        },
+        "DB_Deployment_Package": {
+            "type": "string",
+            "metadata": {
+                "description": "The database deployment package."
+            },
+            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2/db.tar.gz"
+        },
+        "PAS_Deployment_Package": {
+            "type": "string",
+            "metadata": {
+                "description": "The PASOE deployment package."
+            },
+            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2/pas.tar.gz"
+        },
+        "WEB_Deployment_Package": {
+            "type": "string",
+            "metadata": {
+                "description": "The WEB UI deployment package."
+            },
+            "defaultValue": "https://github.com/progress/openedge-demos/releases/download/v1.0.2/web.tar.gz"
         }
     },
     "variables": {
@@ -145,7 +166,10 @@
                     },
                     "OE_Image_externalid": {
                         "value": "[parameters('OE_Image_externalid')]"
-                    }
+                    },
+                    "DB_Deployment_Package": {
+                        "value": "[parameters('DB_Deployment_Package')]"
+                    }                    
                 }
             }
         },
@@ -181,6 +205,9 @@
                     },
                     "dbHostName": {
                         "value": "[reference('openedge-database').outputs.dbHostName.value]"
+                    },
+                    "PAS_Deployment_Package": {
+                        "value": "[parameters('PAS_Deployment_Package')]"
                     }
                 }
             }
@@ -215,6 +242,9 @@
                     },
                     "loadMasterIPAddress": {
                         "value": "[reference('loadmaster').outputs.loadMasterIPAddress.value]"
+                    },
+                    "WEB_Deployment_Package": {
+                        "value": "[parameters('WEB_Deployment_Package')]"
                     }
                 }
             }

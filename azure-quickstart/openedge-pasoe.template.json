@@ -66,13 +66,19 @@
         },
         "dbHostName": {
             "type": "string"
+        },
+        "PAS_Deployment_Package": {
+            "type": "string",
+            "metadata": {
+                "description": "The PASOE deployment package."
+            }
         }
     },
     "variables": {
         "virtualNetworkName": "[concat(resourceGroup().name, '-vnet')]",
         "networkSecurityGroupName": "pasoe-nsg",
         "namingInfix": "[toLower(substring(concat(parameters('virtualMachineScaleSetName'), uniqueString(resourceGroup().id)), 0, 9))]",
-        "customData": "[concat('#!/bin/bash\nexport HOST=', parameters('dbHostName'), '\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.pas.sh | bash')]",
+        "customData": "[concat('#!/bin/bash\nexport DEPLOYMENT_PACKAGE=', parameters('PAS_Deployment_Package'), '\nexport HOST=', parameters('dbHostName'), '\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.pas.sh | bash')]",        
         "networkInterfaceConfigurations": [
             {
                 "name": "[concat(resourceGroup().name, '-vnet-nic01')]",

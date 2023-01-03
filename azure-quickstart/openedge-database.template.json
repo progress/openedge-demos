@@ -33,13 +33,19 @@
         },
         "OE_Image_externalid": {
             "type": "string"
-        }        
+        },
+        "DB_Deployment_Package": {
+            "type": "string",
+            "metadata": {
+                "description": "The database deployment package."
+            }
+        }
     },
     "variables": {
         "networkSecurityGroupName": "database-nsg",
         "vmName": "DB0",
         "networkInterfaceName": "[concat(variables('vmName'), '-nic')]",
-        "customData": "#!/bin/bash\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.db.sh | sudo bash"
+        "customData": "[concat('#!/bin/bash\nexport DEPLOYMENT_PACKAGE=', parameters('DB_Deployment_Package'), '\ncurl -s https://raw.githubusercontent.com/progress/openedge-demos/azure-quickstart/azure-quickstart/deploy.db.sh | bash')]",
     },
     "resources": [
         {
