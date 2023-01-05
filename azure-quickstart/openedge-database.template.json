@@ -58,8 +58,6 @@
                 "securityRules": [
                     {
                         "name": "SSH",
-                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('networkSecurityGroupName'), 'SSH')]",
-                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
                         "properties": {
                             "description": "Allow SSH",
                             "protocol": "Tcp",
@@ -78,8 +76,6 @@
                     },
                     {
                         "name": "AllowAny20000Inbound",
-                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('networkSecurityGroupName'), 'AllowAny20000Inbound')]",
-                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
                         "properties": {
                             "description": "Allow access using port 20000",
                             "protocol": "Tcp",

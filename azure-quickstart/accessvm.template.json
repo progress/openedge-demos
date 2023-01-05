@@ -49,8 +49,6 @@
                 "securityRules": [
                     {
                         "name": "SSH",
-                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('networkSecurityGroupName'), 'SSH')]",
-                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
                         "properties": {
                             "description": "Allow SSH",
                             "protocol": "Tcp",
@@ -92,7 +90,8 @@
             "apiVersion": "2017-06-01",
             "name": "[variables('networkInterfaceName')]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
+                "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
             ],
             "location": "[parameters('location')]",
             "properties": {

@@ -106,8 +106,6 @@
                 "securityRules": [
                     {
                         "name": "SSH",
-                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('networkSecurityGroupName'), 'SSH')]",
-                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
                         "properties": {
                             "description": "Allow SSH",
                             "protocol": "Tcp",
@@ -126,8 +124,6 @@
                     },
                     {
                         "name": "AllowAny8810Inbound",
-                        "id": "[resourceId('Microsoft.Network/networkSecurityGroups/securityRules', variables('networkSecurityGroupName'), 'AllowAny8810Inbound')]",
-                        "type": "Microsoft.Network/networkSecurityGroups/securityRules",
                         "properties": {
                             "description": "Allow access using port 8810",
                             "protocol": "Tcp",
