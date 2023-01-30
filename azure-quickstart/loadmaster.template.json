@@ -196,7 +196,8 @@
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "Static",
+                            "10.0.0.10",
                             "publicIPAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
                             },
