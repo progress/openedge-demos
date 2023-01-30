@@ -73,6 +73,8 @@ then
   chmod +x /etc/rc.local
 fi    
 
+chmod +x ../scripts/*.sh
+
 echo Running install_docker.sh...
 ../scripts/install_docker.sh
 echo Running install_docker_compose.sh...
