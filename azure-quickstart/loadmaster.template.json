@@ -224,6 +224,10 @@
         "loadMasterIPAddress": {
             "type": "string",
             "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))).ipAddress]"
+        },
+        "loadMasterPrivateIPAddress": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))).ipConfigurations[0].properties.privateIPAddress]"
         }
     }
 }
