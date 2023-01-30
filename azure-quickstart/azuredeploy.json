@@ -248,7 +248,7 @@
                         "value": "[parameters('instanceCount')]"
                     },
                     "loadMasterIPAddress": {
-                        "value": "[reference('loadmaster').outputs.loadMasterIPAddress.value]"
+                        "value": "[reference('loadmaster').outputs.loadMasterPrivateIPAddress.value]"
                     },
                     "WEB_Deployment_Package": {
                         "value": "[concat(parameters('packageLocation'), '/', parameters('WEB_Deployment_Package'))]"
