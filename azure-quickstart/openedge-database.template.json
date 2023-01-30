@@ -108,7 +108,8 @@
                     {
                         "name": "ipconfig1",
                         "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "Static",
+                            "privateIpAddress": "10.0.0.20",
                             "subnet": {
                                 "id": "[concat(parameters('virtualNetworkExternalId'), '/subnets/default')]"
                             },                            
