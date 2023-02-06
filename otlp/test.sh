@@ -9,6 +9,9 @@ else
   echo FAILED
 fi
 
+echo "Waiting 30 seconds to ensure data collect from Prometheus... "
+sleep 30
+
 echo -n "Testing Prometheus endpoint at OTLP Collector... "
 if curl -s http://localhost:9464/metrics > /tmp/$$.tmp
 then
